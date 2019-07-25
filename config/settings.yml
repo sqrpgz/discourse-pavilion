@@ -23,3 +23,6 @@ plugins:
   pavilion_home_box_3_url:
     client: true
     default: "/new-message?groupname=team&title=Join%20Pavilion"
+  pavilion_home_categories:
+    type: category_list
+    default: ""

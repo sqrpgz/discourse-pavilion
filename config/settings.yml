@@ -26,3 +26,4 @@ plugins:
   pavilion_home_categories:
     type: category_list
     default: ""
+    client: true

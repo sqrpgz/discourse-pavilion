@@ -26,4 +26,5 @@ after_initialize do
   end
   
   add_to_serializer(:group_user, :bio) { object.user_profile.bio_processed }
+  add_to_serializer(:current_user, :homepage_id) { object.user_option.homepage_id }
 end

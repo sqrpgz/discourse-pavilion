@@ -47,7 +47,7 @@
         <a name="team" href="#team">Our Team</a>
       </div>
       <div class="home-profiles">
-        {{#each model.teamMembers as |tm|}}
+        {{#each teamMembers as |tm|}}
           <a href="/u/{{tm.username}}" class="home-profile">
             <div class="avatar">
               {{avatar tm avatarTemplatePath="avatar_template"

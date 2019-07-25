@@ -15,7 +15,7 @@ after_initialize do
     end
   end
   
-  require_dependency 'lib/homepage_constraint'
+  require 'homepage_constraint'
   Discourse::Application.routes.prepend do
     root to: "pavilion_home/page#index", constraints: HomePageConstraint.new("home")
     get "/home" => "pavilion_home/page#index"

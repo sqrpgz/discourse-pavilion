@@ -1,5 +1,8 @@
 en:
   js:
+    home:
+      latest_topics: "Latest topics in"
+
     admin:
       groups:
         client_group:

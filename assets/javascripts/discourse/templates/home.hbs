@@ -1,13 +1,26 @@
 <div class='column categories'>
   <section class="landing">
     <div class="first">
-      <div class="home-image"></div>
-      <div class="site-title">
-        {{siteSettings.pavilion_home_site_title}}
-      </div>
-      <div class="home-title">
-        {{{siteSettings.pavilion_home_site_description}}}
-      </div>
+      {{#if topics}}
+        <div class="topics-title">
+          <span class="text">
+            {{i18n 'home.latest_topics'}}
+          </span>
+          {{category-link category}}
+        </div>
+        
+        {{topic-list topics=topics
+                     hideCategory=true
+                     skipHeader=true}}
+      {{else}}
+        <div class="home-image"></div>
+        <div class="site-title">
+          {{siteSettings.pavilion_home_site_title}}
+        </div>
+        <div class="home-title">
+          {{{siteSettings.pavilion_home_site_description}}}
+        </div>
+      {{/if}}
     </div>
 
     <div class="landing-block">

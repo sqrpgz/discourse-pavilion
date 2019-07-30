@@ -36,6 +36,20 @@ section.landing {
     margin-bottom: 30px;
     border: 1px solid $primary;
     
+    > .topics-title {
+      padding: 15px 10px;
+      font-size: 1.7em;
+      
+      > .text {
+        margin-right: 5px;
+      }
+      
+      .badge-category-bg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
     > .site-title, > .home-title {
       border: 1px solid $primary;
       border-radius: 4px;

@@ -24,6 +24,22 @@ after_initialize do
   require_dependency 'application_controller'
   class PavilionHome::PageController < ApplicationController    
     def index
+      json = {
+        members: ActiveModel::ArraySerializer.new(
+          Group.find_by(name: 'team').users,
+          each_serializer: BasicUserSerializer
+        )
+      }
+      
+      if (current_user && (home_category = current_user.home_category))
+        topic_list = TopicQuery.new(current_user,
+          category: home_category.id,
+          per_page: 6
+        ).list_latest
+        json[:topic_list] = TopicListSerializer.new(topic_list, scope: Guardian.new(current_user)).as_json
+      end
+      
+      render_json_dump(json)
     end
   end
   
@@ -45,14 +61,69 @@ after_initialize do
     prepend UserOptionExtension
   end
   
+  Group.register_custom_field_type('client_group', :boolean)
+  Group.preloaded_custom_fields << "client_group" if Group.respond_to? :preloaded_custom_fields
+  
+  module ClientGroupModelExtension
+    def expire_cache
+      super
+      @featured_groups = nil
+    end
+  end
+  
   require_dependency 'group'
   class ::Group
+    prepend ClientGroupModelExtension
+
     def client_group
       if custom_fields['client_group'] != nil
         custom_fields['client_group']
       else
         false
       end
+    end
+    
+    def self.client_groups
+      @client_groups ||= begin
+        Group.where("groups.id in (
+          SELECT group_id FROM group_custom_fields
+          WHERE name = 'client_group' AND
+          value::boolean IS TRUE
+        )")
+      end
+    end
+  end
+  
+  require_dependency 'category'
+  class ::Category
+    def self.client_group_category(group_id)
+      Category.where("categories.id in (
+        SELECT category_id FROM category_groups
+        WHERE group_id = #{group_id}
+        AND permission_type = 1
+      )").first
+    end
+  end
+  
+  module FeatureGroupUserExtension
+    def reload
+      @client_groups = nil
+      super
+    end
+  end
+  
+  require_dependency 'user'
+  class ::User
+    prepend FeatureGroupUserExtension
+
+    def home_category
+      if client_groups.present?
+        Category.client_group_category(client_groups.pluck(:id).first)
+      end
+    end
+    
+    def client_groups
+      Group.member_of(Group.client_groups, self)
     end
   end
   

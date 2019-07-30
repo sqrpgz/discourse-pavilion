@@ -50,6 +50,10 @@ section.landing {
       border: 1px solid $primary;
       border-radius: 4px;
     }
+    
+    .main-link .topic-details .topic-category {
+      display: none;
+    }
   }
 
   .home-image {

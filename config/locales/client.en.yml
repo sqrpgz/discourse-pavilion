@@ -1,0 +1,6 @@
+en:
+  js:
+    admin:
+      groups:
+        client_group:
+          label: "Client Group"

@@ -44,4 +44,57 @@ after_initialize do
   class ::UserOption
     prepend UserOptionExtension
   end
+  
+  require_dependency 'group'
+  class ::Group
+    def client_group
+      if custom_fields['client_group'] != nil
+        custom_fields['client_group']
+      else
+        false
+      end
+    end
+  end
+  
+  module AdminGroupsControllerExtension
+    private def group_params
+      client_group = params.require(:group).permit(:client_group)[:client_group]
+
+      if client_group != nil
+        merge_params = {
+          custom_fields: { client_group: client_group }
+        }
+        super.merge(merge_params)
+      else
+        super
+      end
+    end
+  end
+
+  module GroupsControllerExtension
+    private def group_params(automatic: false)
+      client_group = params.require(:group).permit(:client_group)[:client_group]
+
+      if client_group != nil
+        merge_params = {
+          custom_fields: { client_group: client_group }
+        }
+        super.merge(merge_params)
+      else
+        super
+      end
+    end
+  end
+
+  require_dependency 'admin/groups_controller'
+  class ::Admin::GroupsController
+    prepend AdminGroupsControllerExtension
+  end
+
+  require_dependency 'groups_controller'
+  class ::GroupsController
+    prepend GroupsControllerExtension
+  end
+  
+  add_to_serializer(:basic_group, :client_group) { object.client_group }
 end

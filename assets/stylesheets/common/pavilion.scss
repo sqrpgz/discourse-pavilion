@@ -35,6 +35,7 @@ section.landing {
     display: inline-block;
     margin-bottom: 30px;
     border: 1px solid $primary;
+    overflow: scroll;
     
     > .topics-title {
       padding: 15px 10px;

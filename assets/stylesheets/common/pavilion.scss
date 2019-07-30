@@ -41,13 +41,8 @@ section.landing {
       padding: 15px 10px;
       font-size: 1.7em;
       
-      > .text {
-        margin-right: 5px;
-      }
-      
-      .badge-category-bg {
-        width: 18px;
-        height: 18px;
+      .badge-category-bg, .badge-category-parent-bg, .d-icon {
+        display: none;
       }
     }
     

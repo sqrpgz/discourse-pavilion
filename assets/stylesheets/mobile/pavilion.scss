@@ -21,9 +21,37 @@ section.landing {
 
   .links {
     flex-direction: column;
+    margin-top: 20px;
+    
+    li {
+      width: 100%;
+      box-sizing: border-box;
+    }
 
     .label {
       font-size: 25px;
+    }
+    
+    .image {
+      height: 150px;
+    }
+  }
+  
+  .category-boxes {
+    flex-direction: column;
+    
+    .category-box {
+      width: 100%;
+      margin: 0 0 10px;
+    }
+  }
+  
+  .home-profiles {
+    flex-direction: column;
+    
+    a.home-profile {
+      width: 100%;
+      box-sizing: border-box;
     }
   }
   

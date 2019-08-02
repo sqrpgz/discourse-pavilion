@@ -9,14 +9,12 @@ export default Discourse.Route.extend({
   setupController(controller, model) {
     let props = {
       teamMembers: model.members
-    }
+    };
 
     if (model.topic_list) {
       props['topics'] = TopicList.topicsFrom(this.store, model.topic_list);
       if (props['topics'].length) props['category'] = props['topics'][0].category;
     }
-
-    console.log('setupController', model)
 
     controller.setProperties(props);
   }

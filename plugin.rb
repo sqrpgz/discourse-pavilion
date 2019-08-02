@@ -27,7 +27,7 @@ after_initialize do
       json = {
         members: ActiveModel::ArraySerializer.new(
           Group.find_by(name: 'team').users,
-          each_serializer: BasicUserSerializer
+          each_serializer: GroupUserSerializer
         )
       }
       

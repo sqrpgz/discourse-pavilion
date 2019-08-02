@@ -21,29 +21,41 @@ after_initialize do
     get "/home" => "pavilion_home/page#index"
   end
   
-  require_dependency 'application_controller'
-  class PavilionHome::PageController < ApplicationController    
-    def index
-      json = {
-        members: ActiveModel::ArraySerializer.new(
-          Group.find_by(name: 'team').users,
-          each_serializer: GroupUserSerializer
-        )
-      }
-      
-      if (current_user && (home_category = current_user.home_category))
-        topic_list = TopicQuery.new(current_user,
-          category: home_category.id,
-          per_page: 6
-        ).list_latest
-        json[:topic_list] = TopicListSerializer.new(topic_list, scope: Guardian.new(current_user)).as_json
-      end
-      
-      render_json_dump(json)
+  class HomepageUserSerializer < BasicUserSerializer
+    attributes :title,
+               :bio
+    
+    def bio
+      object.user_profile.bio_processed
     end
   end
   
-  add_to_serializer(:group_user, :bio) { object.user_profile.bio_processed }
+  require_dependency 'application_controller'
+  class PavilionHome::PageController < ApplicationController    
+    def index
+      begin
+        json = {
+          members: ActiveModel::ArraySerializer.new(
+            Group.find_by(name: 'team').users,
+            each_serializer: HomepageUserSerializer
+          )
+        }
+        
+        if (current_user && (home_category = current_user.home_category))
+          topic_list = TopicQuery.new(current_user,
+            category: home_category.id,
+            per_page: 6
+          ).list_latest
+          json[:topic_list] = TopicListSerializer.new(topic_list, scope: Guardian.new(current_user)).as_json
+        end
+        
+        render_json_dump(json)
+      rescue => e
+        puts e
+      end
+    end
+  end
+  
   add_to_serializer(:current_user, :homepage_id) { object.user_option.homepage_id }
   
   module UserOptionExtension

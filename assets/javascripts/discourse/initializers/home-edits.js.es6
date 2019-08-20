@@ -34,7 +34,9 @@ export default {
         name: "work",
         displayName: "Work",
         href: "/work",
-        customFilter: (category, args) => { !category && currentUser.staff }
+        customFilter: function (category, args) { 
+          return currentUser && currentUser.staff && !category;
+        }
       })
     });
   }

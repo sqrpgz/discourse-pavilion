@@ -7,6 +7,9 @@
 register_asset "stylesheets/common/pavilion.scss"
 register_asset "stylesheets/mobile/pavilion.scss", :mobile
 
+Discourse.filters.push(:work)
+Discourse.anonymous_filters.push(:work)
+
 after_initialize do
   module ::PavilionHome
     class Engine < ::Rails::Engine
@@ -30,6 +33,22 @@ after_initialize do
     end
   end
   
+  require_dependency 'topic_query'
+  class ::TopicQuery
+    def list_work
+      @options[:assigned] = @user.username
+      create_list(:work) do |result|
+        result.where("topics.id NOT IN (
+          SELECT topic_id FROM topic_tags
+          WHERE topic_tags.tag_id in (
+            SELECT id FROM tags
+            WHERE tags.name = 'done'
+          )
+        )")
+      end
+    end
+  end
+  
   require_dependency 'application_controller'
   class PavilionHome::PageController < ApplicationController    
     def index
@@ -41,11 +60,18 @@ after_initialize do
           )
         }
         
-        if (current_user && (home_category = current_user.home_category))
+        topic_list = nil
+        
+        if current_user && current_user.staff?
+          topic_list = TopicQuery.new(current_user, per_page: 6).list_work
+        elsif (current_user && (home_category = current_user.home_category))
           topic_list = TopicQuery.new(current_user,
             category: home_category.id,
             per_page: 6
           ).list_latest
+        end
+        
+        if topic_list
           json[:topic_list] = TopicListSerializer.new(topic_list, scope: Guardian.new(current_user)).as_json
         end
         

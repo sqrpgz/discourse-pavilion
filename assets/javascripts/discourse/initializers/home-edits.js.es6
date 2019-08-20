@@ -8,7 +8,6 @@ export default {
     const currentUser = container.lookup('current-user:main');
     if (!currentUser || !currentUser.homepage_id) setDefaultHomepage('home');
 
-
     withPluginApi('0.8.23', api => {
       api.modifyClass('model:group', {
         @observes('client_group')
@@ -30,6 +29,13 @@ export default {
           return attrs;
         }
       });
+      
+      api.addNavigationBarItem({
+        name: "work",
+        displayName: "Work",
+        href: "/work",
+        customFilter: (category, args) => { !category && currentUser.staff }
+      })
     });
   }
 };

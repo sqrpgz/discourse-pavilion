@@ -7,3 +7,12 @@ en:
       groups:
         client_group:
           label: "Client Group"
+          
+    filters:
+      work:
+        title: "Work"
+        help: "Live topics assigned to you."
+        
+    topics:
+      bottom:
+        work: "There are no more work topics."

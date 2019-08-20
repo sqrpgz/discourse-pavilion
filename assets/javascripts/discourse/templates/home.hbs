@@ -6,7 +6,13 @@
           <span class="text">
             {{i18n 'home.latest_topics'}}
           </span>
-          {{category-link category}}
+          {{#if currentUser.staff}}
+            <a href="/work">
+              {{i18n 'filters.work.title'}}
+            </a>
+          {{else}}
+            {{category-link category}}
+          {{/if}}
         </div>
         
         {{topic-list topics=topics

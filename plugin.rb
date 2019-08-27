@@ -55,7 +55,7 @@ after_initialize do
       begin
         json = {
           members: ActiveModel::ArraySerializer.new(
-            Group.find_by(name: 'team').users,
+            Group.find_by(name: 'members').users,
             each_serializer: HomepageUserSerializer
           )
         }
@@ -105,7 +105,7 @@ after_initialize do
   module ClientGroupModelExtension
     def expire_cache
       super
-      @featured_groups = nil
+      @client_groups = nil
     end
   end
   

@@ -10,19 +10,19 @@ plugins:
     default: "Hire us to work on your Discourse"
   pavilion_home_box_1_url:
     client: true
-    default: "/new-message?groupname=team&title=Consulting%20Enquiry"
+    default: "/new-message?groupname=contact&title=Consulting%20Enquiry"
   pavilion_home_box_2_text:
     client: true
     default: "Ask about our open source plugins"
   pavilion_home_box_2_url:
     client: true
-    default: "/new-message?groupname=team&title=Plugin%20Enquiry"
+    default: "/new-message?groupname=contact&title=Plugin%20Enquiry"
   pavilion_home_box_3_text:
     client: true
     default: "Join our cooperative"
   pavilion_home_box_3_url:
     client: true
-    default: "/new-message?groupname=team&title=Join%20Pavilion"
+    default: "/new-message?groupname=contact&title=Join%20Pavilion"
   pavilion_home_categories:
     type: category_list
     default: ""

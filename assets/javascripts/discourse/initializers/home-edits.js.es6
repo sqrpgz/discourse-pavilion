@@ -14,8 +14,8 @@ export default {
         setClientGroupDefaults() {
           if (this.get('client_group')) {
             this.setProperties({
-              mentionable_level: 0,
-              messageable_level: 0,
+              mentionable_level: 3,
+              messageable_level: 3,
               visibility_level: 2,
               members_visibility_level: 2,
               title: "Client",

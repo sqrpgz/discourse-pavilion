@@ -17,8 +17,9 @@ export default {
               mentionable_level: 0,
               messageable_level: 0,
               visibility_level: 2,
+              members_visibility_level: 2,
               title: "Client",
-              grant_trust_level: 2
+              grant_trust_level: 3
             });
           }
         },

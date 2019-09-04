@@ -54,10 +54,14 @@
     
     <div class="landing-block">
       <div class="home-title">
-        <a name="categories" href="/categories">Learn More</a>
+        <a name="learn_more" href="/c/welcome/about">Learn More</a>
       </div>
-      {{#if filteredCategories}}
-        {{categories-boxes categories=filteredCategories}}
+      {{#if aboutTopics}}
+        <div class="about-topic-list">
+          {{#each aboutTopics as |aboutTopic|}}
+            {{about-topic topic=aboutTopic}}
+          {{/each}}
+        </div>
       {{/if}}
     </div>
 

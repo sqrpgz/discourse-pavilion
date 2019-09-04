@@ -49,36 +49,66 @@ after_initialize do
     end
   end
   
+  require_dependency 'topic_list_item_serializer'
+  class HomeTopicListItemSerializer < TopicListItemSerializer
+    def excerpt
+      doc = Nokogiri::HTML::fragment(object.first_post.cooked)
+      doc.search('.//img').remove
+      PrettyText.excerpt(doc.to_html, 300, keep_emoji_images: true)
+    end
+
+    def include_excerpt?
+      true
+    end
+  end
+  
+  require_dependency 'topic_list_serializer'
+  class HomeTopicListSerializer < TopicListSerializer
+    has_many :topics, serializer: HomeTopicListItemSerializer, embed: :objects
+  end
+  
   require_dependency 'application_controller'
   class PavilionHome::PageController < ApplicationController    
     def index
-      begin
-        json = {
-          members: ActiveModel::ArraySerializer.new(
-            Group.find_by(name: 'members').users,
-            each_serializer: HomepageUserSerializer
-          )
-        }
-        
-        topic_list = nil
-        
-        if current_user && current_user.staff?
-          topic_list = TopicQuery.new(current_user, per_page: 6).list_work
-        elsif (current_user && (home_category = current_user.home_category))
-          topic_list = TopicQuery.new(current_user,
-            category: home_category.id,
-            per_page: 6
-          ).list_latest
-        end
-        
-        if topic_list
-          json[:topic_list] = TopicListSerializer.new(topic_list, scope: Guardian.new(current_user)).as_json
-        end
-        
-        render_json_dump(json)
-      rescue => e
-        puts e
+      json = {}
+      
+      if team_group = Group.find_by(name: SiteSetting.pavilion_team_group)
+        json[:members] = ActiveModel::ArraySerializer.new(
+          team_group.users,
+          each_serializer: HomepageUserSerializer
+        )
       end
+      
+      topic_list = nil
+      
+      if current_user && current_user.staff?
+        topic_list = TopicQuery.new(current_user, per_page: 6).list_work
+      elsif (current_user && (home_category = current_user.home_category))
+        topic_list = TopicQuery.new(current_user,
+          category: home_category.id,
+          per_page: 6
+        ).list_latest
+      end
+      
+      if topic_list
+        json[:topic_list] = TopicListSerializer.new(topic_list,
+          scope: Guardian.new(current_user)
+        ).as_json
+      end
+        
+      if about_category = Category.find_by(name: 'About')
+        if about_topic_list = TopicQuery.new(current_user,
+            per_page: 6,
+            category: about_category.id,
+            no_definitions: true
+          ).list_latest
+          json[:about_topic_list] = HomeTopicListSerializer.new(about_topic_list,
+            scope: Guardian.new(current_user)
+          ).as_json
+        end
+      end
+      
+      render_json_dump(json)
     end
   end
   

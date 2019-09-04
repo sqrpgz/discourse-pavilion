@@ -27,3 +27,7 @@ plugins:
     type: category_list
     default: ""
     client: true
+  pavilion_team_group:
+    type: group
+    default: "members"
+    client: true

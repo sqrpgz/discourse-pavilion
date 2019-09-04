@@ -21,6 +21,11 @@ export default Discourse.Route.extend({
           props['category'] = props['topics'][0].category;
         };
       }
+
+      if (model.about_topic_list) {
+        model.about_topic_list.topic_list = model.about_topic_list.home_topic_list;
+        props['aboutTopics'] = TopicList.topicsFrom(this.store, model.about_topic_list);
+      }
     }
 
     controller.setProperties(props);

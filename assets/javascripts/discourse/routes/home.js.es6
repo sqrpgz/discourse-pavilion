@@ -7,13 +7,20 @@ export default Discourse.Route.extend({
   },
 
   setupController(controller, model) {
-    let props = {
-      teamMembers: model.members
-    };
+    let props = {};
 
-    if (model.topic_list) {
-      props['topics'] = TopicList.topicsFrom(this.store, model.topic_list);
-      if (props['topics'].length) props['category'] = props['topics'][0].category;
+    if (model) {
+      if (model.teamMembers) {
+        props['teamMembers'] = model.members;
+      };
+
+      if (model.topic_list) {
+        props['topics'] = TopicList.topicsFrom(this.store, model.topic_list);
+
+        if (props['topics'].length) {
+          props['category'] = props['topics'][0].category;
+        };
+      }
     }
 
     controller.setProperties(props);

@@ -98,7 +98,7 @@ after_initialize do
         
       if about_category = Category.find_by(name: 'About')
         if about_topic_list = TopicQuery.new(current_user,
-            per_page: 6,
+            per_page: 3,
             category: about_category.id,
             no_definitions: true
           ).list_latest

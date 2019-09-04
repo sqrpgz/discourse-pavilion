@@ -67,26 +67,11 @@
 
     <div class="landing-block">
       <div class="home-title">
-        <a name="team" href="#team">Our Team</a>
+        <a name="members" href="#members">Featured Members</a>
       </div>
       <div class="home-profiles">
         {{#each teamMembers as |tm|}}
-          <a href="/u/{{tm.username}}" class="home-profile">
-            <div class="avatar">
-              {{avatar tm avatarTemplatePath="avatar_template"
-                          usernamePath="username"
-                          namePath="name"
-                          imageSize="large"}}
-            </div>
-            <div class="details">
-              <div class="name">
-                {{tm.name}}
-              </div>
-              <div class="bio">
-                {{{tm.bio}}}
-              </div>
-            </div>
-          </a>
+          {{team-user-card user=tm}}
         {{/each}}
       </div>
     </div>

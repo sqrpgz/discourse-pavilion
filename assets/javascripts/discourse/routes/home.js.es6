@@ -1,5 +1,6 @@
 import { ajax } from 'discourse/lib/ajax';
 import TopicList from "discourse/models/topic-list";
+import User from 'discourse/models/user';
 
 export default Discourse.Route.extend({
   model() {
@@ -11,7 +12,9 @@ export default Discourse.Route.extend({
 
     if (model) {
       if (model.members) {
-        props['teamMembers'] = model.members;
+        props['teamMembers'] = model.members.map(u => {
+          return User.create(u);
+        });
       };
 
       if (model.topic_list) {

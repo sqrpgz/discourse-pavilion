@@ -68,14 +68,17 @@ after_initialize do
   end
   
   require_dependency 'application_controller'
+  require_dependency 'user_serializer'
   class PavilionHome::PageController < ApplicationController    
     def index
       json = {}
+      guardian = Guardian.new(current_user)
       
       if team_group = Group.find_by(name: SiteSetting.pavilion_team_group)
         json[:members] = ActiveModel::ArraySerializer.new(
-          team_group.users,
-          each_serializer: HomepageUserSerializer
+          team_group.users.sample(2),
+          each_serializer: UserSerializer,
+          scope: guardian
         )
       end
       
@@ -92,7 +95,7 @@ after_initialize do
       
       if topic_list
         json[:topic_list] = TopicListSerializer.new(topic_list,
-          scope: Guardian.new(current_user)
+          scope: guardian
         ).as_json
       end
         
@@ -103,7 +106,7 @@ after_initialize do
             no_definitions: true
           ).list_latest
           json[:about_topic_list] = HomeTopicListSerializer.new(about_topic_list,
-            scope: Guardian.new(current_user)
+            scope: guardian
           ).as_json
         end
       end

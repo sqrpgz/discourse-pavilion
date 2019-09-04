@@ -37,13 +37,8 @@ section.landing {
     }
   }
   
-  .category-boxes {
-    flex-direction: column;
-    
-    .category-box {
-      width: 100%;
-      margin: 0 0 10px;
-    }
+  div.about-topic-list .about-topic {
+    width: 100%;
   }
   
   .home-profiles {

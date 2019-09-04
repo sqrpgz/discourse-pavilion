@@ -7,11 +7,16 @@ export default UserCardContents.extend({
   username: Ember.computed.alias('user.username'),
 
   didInsertElement() {
+    const url = this.get("user.card_background_upload_url");
+    const bg = Ember.isEmpty(url)
+      ? ""
+      : `url(${Discourse.getURLWithCDN(url)})`;
+    this.element.style.backgroundImage = bg;
   },
 
   keyUp() {
   },
 
   cleanUp() {
-  },
+  }
 });

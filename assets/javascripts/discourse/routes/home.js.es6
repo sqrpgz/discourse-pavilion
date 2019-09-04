@@ -10,7 +10,7 @@ export default Discourse.Route.extend({
     let props = {};
 
     if (model) {
-      if (model.teamMembers) {
+      if (model.members) {
         props['teamMembers'] = model.members;
       };
 

@@ -33,7 +33,6 @@ export default {
 
       api.addNavigationBarItem({
         name: "work",
-        displayName: "Work",
         href: "/work",
         customFilter: function (category) {
           return currentUser && currentUser.staff && !category;

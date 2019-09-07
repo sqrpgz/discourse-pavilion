@@ -14,6 +14,9 @@ export default UserCardContents.extend({
     this.element.style.backgroundImage = bg;
   },
 
+  willDestroyElement() {
+  },
+
   keyUp() {
   },
 

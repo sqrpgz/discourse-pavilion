@@ -34,8 +34,8 @@ export default {
       api.addNavigationBarItem({
         name: "work",
         href: "/work",
-        customFilter: function (category) {
-          return currentUser && currentUser.staff && !category;
+        customFilter: function (category, args) {
+          return currentUser && currentUser.staff && !category && args.filterMode !== 'work';
         }
       });
     });

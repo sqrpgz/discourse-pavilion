@@ -31,3 +31,6 @@ plugins:
     type: group
     default: "members"
     client: true
+  pavilion_unassigned_tags:
+    type: tag_list
+    default: "dev-needed"

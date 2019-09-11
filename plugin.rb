@@ -10,6 +10,9 @@ register_asset "stylesheets/mobile/pavilion.scss", :mobile
 Discourse.filters.push(:work)
 Discourse.anonymous_filters.push(:work)
 
+Discourse.filters.push(:unassigned)
+Discourse.anonymous_filters.push(:unassigned)
+
 after_initialize do
   module ::PavilionHome
     class Engine < ::Rails::Engine
@@ -37,6 +40,7 @@ after_initialize do
   class ::TopicQuery
     def list_work
       @options[:assigned] = @user.username
+      
       create_list(:work) do |result|
         result.where("topics.id NOT IN (
           SELECT topic_id FROM topic_tags
@@ -46,6 +50,12 @@ after_initialize do
           )
         )")
       end
+    end
+    
+    def list_unassigned
+      @options[:assigned] = "nobody"
+      @options[:tags] = SiteSetting.pavilion_unassigned_tags.split('|')
+      create_list(:unassigned)
     end
   end
   
@@ -121,6 +131,10 @@ after_initialize do
     def homepage
       if homepage_id == 101
         "home"
+      elsif homepage_id == 102
+        "work"
+      elsif homepage_id == 103
+        "unassigned"
       else
         super
       end

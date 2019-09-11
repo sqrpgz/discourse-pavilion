@@ -1,8 +1,5 @@
 en:
   js:
-    home:
-      latest_topics: "Latest topics in"
-
     admin:
       groups:
         client_group:
@@ -11,8 +8,18 @@ en:
     filters:
       work:
         title: "Work"
-        help: "Live topics assigned to you."
+        help: "Projects and tasks assigned to you."
+      unassigned:
+        title: "Unassigned"
+        help: "Unassigned projects and tasks."
+    
+    home:
+      latest_topics: "Latest topics in"
         
     topics:
       bottom:
-        work: "There are no more work topics."
+        work: "You have no more work topics."
+        unassigned: "There are no more unassigned topics."
+      none:
+        work: "You have no work!"
+        unassigned: "There's no unassigned work."

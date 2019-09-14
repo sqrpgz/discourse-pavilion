@@ -91,9 +91,9 @@ section.landing {
 
   .home-title {
     font-size: 28px;
-    max-width: 60%;
     margin: 20px 0;
     background-color: white;
+    display: inline-block;
 
     a {
       @extend .link;
@@ -102,7 +102,7 @@ section.landing {
 
   .first .home-title {
     padding: 20px;
-    margin-left: 20px;
+    margin: 0 20px;
   }
 
   .home-profiles {

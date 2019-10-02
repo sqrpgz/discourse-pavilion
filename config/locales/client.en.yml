@@ -23,3 +23,17 @@ en:
       none:
         work: "You have no work!"
         unassigned: "There's no unassigned work."
+    
+    topic:
+      work:
+        billable_hours: "Billable Hours"
+        billable_hour_rate: "Hour Rate"
+        
+    user:
+      work:
+        label: "Work"
+        save: "Save"
+        saving: "Saving"
+        billable_hours_week: "Weekly Billable Hours Target"
+        billable_total_month: "Monthly Billable Total Target"
+      
